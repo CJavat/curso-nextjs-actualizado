@@ -1,29 +1,41 @@
 import { Pokemon } from "@/pokemons";
 import { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: { id: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id, name } = await getPokemon(params.id);
-
-  return {
-    title: `#${id} - ${name}`,
-    description: `Página del pokémon: ${name}`,
-  };
+  try {
+    const { id, name } = await getPokemon(params.id);
+    
+    return {
+      title: `#${id} - ${name}`,
+      description: `Página del pokémon: ${name}`,
+    };
+  } catch (error) {
+    return {
+      title: `Error 404 - Pokémon Not Found`,
+      description: `Pokémon Not Found`,
+    }
+  }
 }
 
 const getPokemon = async (id: string): Promise<Pokemon> => {
-  const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-    cache: "force-cache",
-    // next: {
-    //   revalidate: 60 * 60 * 30 * 6
-    // }
-  }).then((resp) => resp.json());
-
-  return pokemon;
+  try {
+      const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
+        cache: "force-cache",
+        // next: {
+          //   revalidate: 60 * 60 * 30 * 6
+          // }
+        }).then((resp) => resp.json());
+        
+        return pokemon;
+    } catch (error) {
+      notFound(); // Forma de redirigir a la página de not-found.tsx
+    }
 };
 
 export default async function PokemonPage({ params }: Props) {
