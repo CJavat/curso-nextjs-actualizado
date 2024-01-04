@@ -1,0 +1,14 @@
+version: '3' # Que tipo de versión es el archivo.
+
+services: 
+  todosDB: # Nombre del servicio.
+    image: postgres:15.3 # Imagen que se va a usar.
+    container_name: todos-db # Nombre del contenedor.
+    restart: always # Para que siempre levante la DB.
+    ports:
+      - 5432:5432 # Hace que se conecte el puerto de Docker al puerto de mi PC.
+    environment: # Para definir las variables de entorno.
+      - POSTGRES_USERS=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes: # Para conectar carpeta de mi PC con la del servidor (Docker)
+      - ./postgres:/var/lib/postgresql/data # Conecta la carpeta de mi proyecto a la de Docker.
