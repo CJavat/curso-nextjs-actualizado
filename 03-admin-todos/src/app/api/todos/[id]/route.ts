@@ -48,7 +48,7 @@ export async function PUT(request: Request, { params }: Segments) {
       data: { complete, description }
     })
   
-    console.log(todo);
+    // console.log(todo);
   
     return NextResponse.json( updateTodo );
   } catch (error) {
