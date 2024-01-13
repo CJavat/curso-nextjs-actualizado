@@ -14,11 +14,12 @@ enum Size {
   L
   XL
   XXL
+  XXXL
 }
 
 enum Gender {
   men
-  wome
+  women
   kid
   unisex
 }
