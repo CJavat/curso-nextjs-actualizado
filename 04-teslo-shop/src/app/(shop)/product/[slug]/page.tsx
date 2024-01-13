@@ -1,7 +1,10 @@
-import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector } from "@/components";
-import { titleFont } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
+export const revalidate = 604800; // 7 días.
+
 import { notFound } from "next/navigation";
+import { titleFont } from "@/config/fonts";
+import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector, StockLabel } from "@/components";
+import { getProductBySlug } from "@/actions";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
   params: {
@@ -9,10 +12,32 @@ interface Props {
   }
 }
 
-export default function ProductBySlugPage( { params }: Props ) {
-  const { slug } = params;
-  const product = initialData.products.find( product => product.slug === slug );
+export async function generateMetadata( { params }: Props, parent: ResolvingMetadata ): Promise<Metadata> {
+  // read route params
+  const slug = params.slug;
 
+  // fetch data
+  const product = await getProductBySlug( slug );
+
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    title: product?.title ?? 'Producto no encontrado',
+    description: product?.description ?? '',
+    openGraph: {
+      title: product?.title ?? 'Producto no encontrado',
+      description: product?.description ?? '',
+      // images: [], // https://misitioweb.com/products/image.png
+      images: [`/products/${ product?.images[1] }`],
+    },
+  }
+}
+
+export default async function ProductBySlugPage( { params }: Props ) {
+  const { slug } = params;
+  const product = await getProductBySlug( slug );
+  
   if( !product ) notFound();
 
 
@@ -38,6 +63,8 @@ export default function ProductBySlugPage( { params }: Props ) {
 
       {/* Detalles */}
       <div className="col-span-1 px-5">
+        <StockLabel slug={ product.slug } />
+
         <h1 className={`${ titleFont.className } antialiased font-bold text-xl `}>
           { product.title }
         </h1>
