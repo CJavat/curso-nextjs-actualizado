@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { QuantitySelector } from "@/components";
 import { useCartStore } from "@/store";
 
 export const ProductsInCart = () => {
+  const router = useRouter();
   const [loaded, setLoaded] = useState( false );
   const productsInCart = useCartStore( state => state.cart );
   const updateProductQuantity = useCartStore( state => state.updateProductQuantity );
@@ -16,8 +18,11 @@ export const ProductsInCart = () => {
     setLoaded( true ); //? Está es la forma de eliminar el error con la hidratación.
   }, [])
   
+  useEffect(() => {
+    if( productsInCart.length < 1 ) return router.replace("/empty");
+  }, [ productsInCart ])
 
-  if( !loaded ) return <p> Loading... </p>
+  if( !loaded ) return <p className="text-blue-500 font-bold text-5xl"> Loading... </p>
 
   return (
     <>

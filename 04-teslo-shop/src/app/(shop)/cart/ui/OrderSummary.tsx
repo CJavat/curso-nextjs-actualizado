@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/store";
-import { currencyForman } from "@/utils";
+import { currencyFormat } from "@/utils";
 import { useEffect, useState } from "react";
 
 export const OrderSummary = () => {
@@ -22,13 +22,13 @@ export const OrderSummary = () => {
       </span>
 
       <span>Subtotal</span>
-      <span className="text-right">{ currencyForman(subTotal) }</span>
+      <span className="text-right">{ currencyFormat( subTotal ) }</span>
 
       <span>Impuestos</span>
-      <span className="text-right">{ currencyForman(tax) }</span>
+      <span className="text-right">{ currencyFormat( tax ) }</span>
 
       <span className="text-2xl mt-5">Total:</span>
-      <span className="text-right text-2xl mt-5">{ currencyForman(total) }</span>
+      <span className="text-right text-2xl mt-5">{ currencyFormat( total ) }</span>
     </div>
   )
 }
