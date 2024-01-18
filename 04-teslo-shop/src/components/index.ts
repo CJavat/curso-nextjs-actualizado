@@ -1,4 +1,8 @@
-export * from "./provider/Provider";
+export * from "./paypal/PayPalButton";
+
+export * from "./providers/Providers";
+
+export * from "./orders/OrderStatus";
 
 export * from "./product/slideshow/ProductMobileSlideshow";
 export * from "./product/slideshow/ProductSlideshow";
