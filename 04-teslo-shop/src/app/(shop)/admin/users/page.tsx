@@ -12,7 +12,8 @@ export default async function OrdersPage() {
   const { ok, users } = await getPaginatedUsers();
 
   if( !ok ) redirect("/auth/login");
-  
+  if( !users )redirect("/auth/login");
+
   return (
     <>
       <Title title="Mantenimiento de Usuarios" />

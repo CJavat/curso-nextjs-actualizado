@@ -20,7 +20,7 @@ export const ProductsInCart = () => {
   
   useEffect(() => {
     if( productsInCart.length < 1 ) return router.replace("/empty");
-  }, [ productsInCart ])
+  }, [ productsInCart, router ])
 
   if( !loaded ) return <p className="text-blue-500 font-bold text-5xl"> Loading... </p>
 

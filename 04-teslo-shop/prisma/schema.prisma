@@ -74,9 +74,9 @@ model User {
   role          Role      @default(user)
   image         String?
 
+  // Relaciones
   address UserAddress?
 
-  // Relaciones
   Order Order[]
 }
 

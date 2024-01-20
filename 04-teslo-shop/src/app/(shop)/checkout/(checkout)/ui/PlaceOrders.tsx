@@ -28,7 +28,7 @@ export const PlaceOrders = () => {
 
   useEffect(() => {
     if( cart.length < 1 && isPlacingOrder === false ) return router.replace("/empty");
-  }, [ cart ])
+  }, [ cart, isPlacingOrder, router ])
 
   const onPlaceOrder = async () => {
     setIsPlacingOrder( true );

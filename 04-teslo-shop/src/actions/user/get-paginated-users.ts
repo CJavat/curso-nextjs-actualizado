@@ -1,17 +1,12 @@
 "use server";
 
-import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
+import { auth } from "@/auth.config";
 
 export const getPaginatedUsers = async () => {
   const session = await auth();
 
-  if( session?.user.role !== 'admin' ) {
-    return {
-      ok: false,
-      message: "Debe de ser un usuario administra",
-    }
-  }
+  if( session?.user.role !== 'admin' ) return { ok: false }; 
 
   const users = await prisma.user.findMany({
     orderBy: {
